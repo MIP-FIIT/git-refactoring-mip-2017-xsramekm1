@@ -1,126 +1,127 @@
+// Martin Šrámek
+// FIIT STU, Bratislava
+
+// Princ hlada princeznu
+
 #include <stdio.h>
 #include <stdlib.h>
 
-char map[100][100]; 
-int n, m;
+char mapa[100][100];
+int pocet_riadkov, dlzka_riadku;
 
-void scan(FILE *f){
-	char c;
-	int j = 0;
-	n = m = 0;
-	while ((c = fgetc(f)) > 0) 
+void nacitaj_bludisko(FILE *f)
+{
+	char znak;
+	int pozicia_v_riadku = 0;
+	pocet_riadkov = dlzka_riadku = 0;
+	while ((znak = fgetc(f)) > 0)
 	{
-		if (c == '\n')
+		if (znak == '\n')
 		{
-			n++; 
-			j = 0;
+			pocet_riadkov++;
+			pozicia_v_riadku = 0;
 		}
-
-		if (c <= 32) 
+		if (znak <= 32)
 			continue;
-
-		map[n][j++] = c;
-		if (m < j) 
-			m = j;
-}}
-
-
-void write()
-{
-	int i, j;
-	for (i = 0; i < n; i++)
-	{
-		for (j = 0; j < m; j++)
-			printf("%c", map[i][j]);
-		printf("\n");
-}}
-
-
-int inti(int i, int j)
-{ return i * m + j; }
-
-void posi(int pos, int *i, int *j)
-{
-	*i = pos / m;
-	*j = pos%m;
+		mapa[pocet_riadkov][pozicia_v_riadku++] = znak;
+		if (dlzka_riadku < pozicia_v_riadku)
+			dlzka_riadku = pozicia_v_riadku;
+	}
 }
 
-int path()
+void vypis_bludisko()
 {
-	int d, dir[4][2] = { { -1,0 },{ 1,0 },{ 0,-1 },{ 0,1 } }; 
-	int i, j, pred[100][100]; 
-	for (i = 0; i < n; i++)
-	for (j = 0; j < m; j++)
-	pred[i][j] = -1; 
+	int stlpec, riadok;
+	for (stlpec = 0; stlpec < riadok; stlpec++)
+	{
+		for (riadok = 0; riadok < dlzka_riadku; riadok++)
+			printf("%c", mapa[stlpec][riadok]);
+		printf("\n");
+	}
+}
 
-	int *q, h, t = 0;
-	q = (int*)malloc(n*m * sizeof(int));
-	h = t = 0;
+int pos2int(int riadok, int stlpec)
+{
+	return riadok * dlzka_riadku + stlpec;
+}
 
+void int2pos(int pozicia, int *riadok, int *stlpec)
+{
+	*riadok = pozicia / dlzka_riadku;
+	*stlpec = pozicia % dlzka_riadku;
+}
 
-	int pi, pj;
-	for (i = 0; i < n; i++)
-	for (j = 0; j < m; j++)
-		if (map[i][j] == 'P')
-		{
-				pi = i;	pj = j;
-				q[t++] = inti(pi, pj); 
-			  i = n;
-				j = m;
+int vyznac_cestu()
+{
+	int d, dir[4][2] = { { -1,0 },{ 1,0 },{ 0,-1 },{ 0,1 } };
+	int riadok, stlpec, pred[100][100];
+	for (riadok = 0; riadok < pocet_riadkov; riadok++)
+		for (stlpec = 0; stlpec < dlzka_riadku; stlpec++)
+			pred[riadok][stlpec] = -1;
+
+	int *cesta, hlava, chvost = 0;
+	cesta = (int*)malloc(pocet_riadkov * dlzka_riadku * sizeof(int));
+	hlava = chvost = 0;
+
+	int p_riadok, p_stlpec;
+	for (riadok = 0; riadok < pocet_riadkov; riadok++)
+		for (stlpec = 0; j < dlzka_riadku; stlpec++)
+			if (mapa[riadok][stlpec] == 'P')
+			{
+				p_riadok = riadok;
+				p_stlpec = stlpec;
+				cesta[chvost++] = pos2int(p_riadok, p_stlpec);
+				riadok = pocet_riadkov;
+				stlpec = dlzka_riadku;
 				break;
+			}
+
+	while (hlava < chvost)
+	{
+	  int2pos(cesta[hlava++], &riadok, &stlpec);
+
+		for (d = 0; d < 4; d++)
+		{
+			int novy_riadok = i + dir[d][0];
+			int novy_stlpec = j + dir[d][1];
+
+			if (novy_riadok != p_riadok || novy_stlpec != p_stlpec)
+				if (novy_riadok > 0 && novy_riadok < n && novy_stlpec > 0 && novy_stlpec < dlzka_riadku)
+				{
+					if (mapa[novy_riadok][novy_stlpec] == 'P')
+					{
+						while (riadok != p_riadok || stlpec != p_stlpec)
+						{
+							mapa[i][j] = 'x';
+							int2pos(pred[i][j], &i, &j);
+						}
+						return 1;
+					}
+					if (mapa[novy_riadok][novy_stlpec] == '.' && pred[novy_riadok][novy_stlpec] < 0)
+					{
+						pred[novy_riadok][novy_stlpec] = pos2int(i, j);
+						cesta[chvost++] = pos2int(novy_riadok, novy_stlpec);
+					}
+			  }
 		}
+	}
 
 
-	while (h < t) 
-    {
-      posi(q[h++], &i, &j); 
-
-      for (d = 0; d < 4; d++)
-      {
-        int ni = i + dir[d][0]; 
-            int nj = j + dir[d][1];
-              if (ni != pi || nj != pj) 				
-          if (ni > 0 && ni < n && nj > 0 && nj < m) 
-            {					
-              if (map[ni][nj] == 'P') 
-              {
-                while (i != pi || j != pj) 
-                { map[i][j] = 'x'; 
-                  posi(pred[i][j], &i, &j); }
-
-
-              return 1;
-              }
-              if (map[ni][nj] == '.' && pred[ni][nj] < 0) 
-                {
-                  pred[ni][nj] = inti(i, j); 
-
-                q[t++] = inti(ni, nj); 
-              }
-            }				
-        }
-
-    }
-
-
-	return 0; 
+	return 0;
 }
 
 int main(void)
 {
-	scan(fopen("bludisko.txt", "rt"));
-	write();
-	if (!path())
+	nacitaj_bludisko(fopen("bludisko.txt", "rt"));
+	vypis_bludisko();
+	if (!vyznac_cestu())
 	{
 		printf("Cesta neexistuje\n");
 		getchar();
 		return 0;
 	}
-	printf("\n");
-	printf("\n");
-	printf("\n");
-
-	write();
+	printf("\n \n \n");
+	vypis_bludisko();
 	getchar();
 	getchar();
 	getchar();
