@@ -77,7 +77,7 @@ int vyznac_cestu()
   (posledny riadok posledny stlpec)*/
 	int p_riadok, p_stlpec;
 	for (riadok = 0; riadok < pocet_riadkov; riadok++)
-		for (stlpec = 0; j < dlzka_riadku; stlpec++)
+		for (stlpec = 0; stlpec < dlzka_riadku; stlpec++)
       // Ak by sme chceli zmenit princa na iny znak zmenit tu...
 			if (mapa[riadok][stlpec] == 'P')
 			{
@@ -107,7 +107,7 @@ int vyznac_cestu()
 			if (novy_riadok != p_riadok || novy_stlpec != p_stlpec)
         /* Ohranicenie aby sme nevysli z mapy
         (riadok aj stlpec musia byt vacsie ako 0 ale mensie ako ich hrancne hodnoty)*/
-				if (novy_riadok > 0 && novy_riadok < n && novy_stlpec > 0 && novy_stlpec < dlzka_riadku)
+				if (novy_riadok > 0 && novy_riadok < pocet_riadkov && novy_stlpec > 0 && novy_stlpec < dlzka_riadku)
 				{
           // Ak sa na poli nachadza P  (znamena to ze sme nasli princeznu)
 					if (mapa[novy_riadok][novy_stlpec] == 'P')
@@ -115,7 +115,7 @@ int vyznac_cestu()
             // Cyklus sa vykonava pokial nenarazime na princa
 						while (riadok != p_riadok || stlpec != p_stlpec)
 						{
-							mapa[i][j] = 'x'; // Dosadzujeme x na pozicie (vyznacujeme cestu)
+							mapa[riadok][stlpec] = 'x'; // Dosadzujeme x na pozicie (vyznacujeme cestu)
 							int2pos(pred[riadok][stlpec], &riadok, &stlpec);
 						}
 						return 1;
