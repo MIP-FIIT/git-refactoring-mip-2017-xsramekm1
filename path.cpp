@@ -100,8 +100,8 @@ int vyznac_cestu()
 		for (d = 0; d < 4; d++)
 		{
       // Zmeni riadok a stlpec podla podla toho do akeho smeru ideme
-			int novy_riadok = i + dir[d][0];
-			int novy_stlpec = j + dir[d][1];
+			int novy_riadok = riadok + dir[d][0];
+			int novy_stlpec = stlpec + dir[d][1];
 
       // Ak sa pozicia princa nerovna pozici do ktorej sa chceme pohnut (ak ano tak sa pokracuje v cykle)
 			if (novy_riadok != p_riadok || novy_stlpec != p_stlpec)
@@ -116,7 +116,7 @@ int vyznac_cestu()
 						while (riadok != p_riadok || stlpec != p_stlpec)
 						{
 							mapa[i][j] = 'x'; // Dosadzujeme x na pozicie (vyznacujeme cestu)
-							int2pos(pred[i][j], &i, &j);
+							int2pos(pred[riadok][stlpec], &riadok, &stlpec);
 						}
 						return 1;
 					}
@@ -124,7 +124,7 @@ int vyznac_cestu()
 					if (mapa[novy_riadok][novy_stlpec] == '.' && pred[novy_riadok][novy_stlpec] < 0)
 					{
             // Ak sa cestou da ist, zapiseme do pola pred na tieto suradnice poziciu vyjadrenu intom
-						pred[novy_riadok][novy_stlpec] = pos2int(i, j);
+						pred[novy_riadok][novy_stlpec] = pos2int(riadok, stlpec);
             // Priradi v poli cesta na miesto chvost poziciu reprezentovanu intom
 						cesta[chvost++] = pos2int(novy_riadok, novy_stlpec);
 					}
