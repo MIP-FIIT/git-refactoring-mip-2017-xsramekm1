@@ -9,7 +9,8 @@
 char map[100][100];
 int n, m;
 
-void scan(FILE *f){
+void scan(FILE *f)
+{
 	char c;
 	int j = 0;
 	n = m = 0;
@@ -20,14 +21,13 @@ void scan(FILE *f){
 			n++;
 			j = 0;
 		}
-
 		if (c <= 32)
 			continue;
-
 		map[n][j++] = c;
 		if (m < j)
 			m = j;
-}}
+	}
+}
 
 
 void write()
@@ -38,11 +38,14 @@ void write()
 		for (j = 0; j < m; j++)
 			printf("%c", map[i][j]);
 		printf("\n");
-}}
+	}
+}
 
 
 int inti(int i, int j)
-{ return i * m + j; }
+{
+	return i * m + j;
+}
 
 void posi(int pos, int *i, int *j)
 {
@@ -62,7 +65,6 @@ int path()
 	q = (int*)malloc(n*m * sizeof(int));
 	h = t = 0;
 
-
 	int pi, pj;
 	for (i = 0; i < n; i++)
 	for (j = 0; j < m; j++)
@@ -75,39 +77,33 @@ int path()
 				break;
 		}
 
-
 	while (h < t)
     {
       posi(q[h++], &i, &j);
-
       for (d = 0; d < 4; d++)
       {
         int ni = i + dir[d][0];
-            int nj = j + dir[d][1];
-              if (ni != pi || nj != pj)
-          if (ni > 0 && ni < n && nj > 0 && nj < m)
-            {
-              if (map[ni][nj] == 'P')
-              {
-                while (i != pi || j != pj)
-                { map[i][j] = 'x';
-                  posi(pred[i][j], &i, &j); }
-
-
-              return 1;
-              }
-              if (map[ni][nj] == '.' && pred[ni][nj] < 0)
-                {
-                  pred[ni][nj] = inti(i, j);
-
-                q[t++] = inti(ni, nj);
-              }
+        int nj = j + dir[d][1];
+        if (ni != pi || nj != pj)
+        	if (ni > 0 && ni < n && nj > 0 && nj < m)
+						{
+							if (map[ni][nj] == 'P')
+							{
+								while (i != pi || j != pj)
+								{
+									map[i][j] = 'x';
+									posi(pred[i][j], &i, &j);
+								}
+								return 1;
+							}
+							if (map[ni][nj] == '.' && pred[ni][nj] < 0)
+							{
+								pred[ni][nj] = inti(i, j);
+								q[t++] = inti(ni, nj);
+							}
             }
-        }
-
+      }
     }
-
-
 	return 0;
 }
 
@@ -121,9 +117,7 @@ int main(void)
 		getchar();
 		return 0;
 	}
-	printf("\n");
-	printf("\n");
-	printf("\n");
+	printf("\n \n \n");
 
 	write();
 	getchar();
