@@ -1,8 +1,14 @@
+// Martin Šrámek 
+// FIIT STU, Bratislava
+
+// Princ hlada princeznu
+
 #include <stdio.h>
 #include <stdlib.h>
 
 char map[100][100]; 
 int n, m;
+
 
 void scan(FILE *f){
 	char c;
