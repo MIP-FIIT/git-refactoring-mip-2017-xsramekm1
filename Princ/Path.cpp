@@ -1,4 +1,4 @@
-// Martin ≈†r√°mek
+// Martin är·mek
 // FIIT STU, Bratislava
 
 // Princ hlada princeznu
@@ -22,7 +22,7 @@ void nacitaj_bludisko(FILE *f)
 			pocet_riadkov++; // Pocita pocet riadkov
 			pozicia_v_riadku = 0;
 		}
-		if (znak <= 32) // \n ma hodnotu 10, od 32 zaci¬≠naju regulerne znaky v ASCII tabulke
+		if (znak <= 32) // \n ma hodnotu 10, od 32 zaci≠naju regulerne znaky v ASCII tabulke
 			continue;
 		mapa[pocet_riadkov][pozicia_v_riadku++] = znak;
 		if (dlzka_riadku < pozicia_v_riadku)  // Ak presiahneme limit
@@ -43,14 +43,14 @@ void vypis_bludisko()
 }
 
 /* Vypocita poziciu v bludisku z riadku a stlpca, vynasobenim dlzky riadku
- s cislom riadku a pripocita poziciu v riadku*/
+s cislom riadku a pripocita poziciu v riadku*/
 int pos2int(int riadok, int stlpec)
 {
 	return riadok * dlzka_riadku + stlpec;
 }
 
 /* Vypocita cislo riadku a poziciu v riadku z ciselneho
- vyjadrenia pozicie v bludisku a dosadi ich na adresy intov*/
+vyjadrenia pozicie v bludisku a dosadi ich na adresy intov*/
 void int2pos(int pozicia, int *riadok, int *stlpec)
 {
 	*riadok = pozicia / dlzka_riadku;
@@ -60,59 +60,59 @@ void int2pos(int pozicia, int *riadok, int *stlpec)
 // Funkcia hlada cestu bludiskom, ak ju najde tak ju vyznaci
 int vyznac_cestu()
 {
-  // 4 smery (hore, dole, doprava, doalava)
+	// 4 smery (hore, dole, doprava, doalava)
 	int d, dir[4][2] = { { -1,0 },{ 1,0 },{ 0,-1 },{ 0,1 } };
 	int riadok, stlpec, pred[100][100]; // Uchovava int pozicie jednotlivych ciest
 	for (riadok = 0; riadok < pocet_riadkov; riadok++)
 		for (stlpec = 0; stlpec < dlzka_riadku; stlpec++)
 			pred[riadok][stlpec] = -1; // Dosadenie -1 na uzemie rovnake ako su rozmery bludiska
 
-	// alokacia 1D pola o vlekosti poctu poli bludiska (riadky * stlpce)
+																 // alokacia 1D pola o vlekosti poctu poli bludiska (riadky * stlpce)
 	int *cesta, hlava, chvost = 0;
 	cesta = (int*)malloc(pocet_riadkov * dlzka_riadku * sizeof(int));
 	hlava = chvost = 0;
 
 	/* Hlada P (zaciatocny bod) a ak najde tak zaznaci koordinacie do p_riadok a p_stlpec,
 	a nastavi ako aktualny bod z ktoreho sa budeme pohybovat na hranicne hodnoty
-  (posledny riadok posledny stlpec)*/
+	(posledny riadok posledny stlpec)*/
 	int p_riadok, p_stlpec;
 	for (riadok = 0; riadok < pocet_riadkov; riadok++)
 		for (stlpec = 0; stlpec < dlzka_riadku; stlpec++)
-      // Ak by sme chceli zmenit princa na iny znak zmenit tu...
+			// Ak by sme chceli zmenit princa na iny znak zmenit tu...
 			if (mapa[riadok][stlpec] == 'P')
 			{
 				p_riadok = riadok;
 				p_stlpec = stlpec;
-        // Dosadime do pola chvost na nulte miesto int poziciu princa
+				// Dosadime do pola chvost na nulte miesto int poziciu princa
 				cesta[chvost++] = pos2int(p_riadok, p_stlpec);
 				riadok = pocet_riadkov;
 				stlpec = dlzka_riadku;
 				break;
 			}
 
-  // Pokial sa hlava a chvost nerovnaju, cyklus sa vykonava
-  // Sprava sa ako rekurzia
+	// Pokial sa hlava a chvost nerovnaju, cyklus sa vykonava
+	// Sprava sa ako rekurzia
 	while (hlava < chvost)
 	{
-    // Dosadime na adresy riadku a stlpca hodnoty vypocitane z Int pozicie (suradnice kam sme sa pohli)
-	  int2pos(cesta[hlava++], &riadok, &stlpec);
+		// Dosadime na adresy riadku a stlpca hodnoty vypocitane z Int pozicie (suradnice kam sme sa pohli)
+		int2pos(cesta[hlava++], &riadok, &stlpec);
 
 		for (d = 0; d < 4; d++)
 		{
-      // Zmeni riadok a stlpec podla podla toho do akeho smeru ideme
+			// Zmeni riadok a stlpec podla podla toho do akeho smeru ideme
 			int novy_riadok = riadok + dir[d][0];
 			int novy_stlpec = stlpec + dir[d][1];
 
-      // Ak sa pozicia princa nerovna pozici do ktorej sa chceme pohnut (ak ano tak sa pokracuje v cykle)
+			// Ak sa pozicia princa nerovna pozici do ktorej sa chceme pohnut (ak ano tak sa pokracuje v cykle)
 			if (novy_riadok != p_riadok || novy_stlpec != p_stlpec)
-        /* Ohranicenie aby sme nevysli z mapy
-        (riadok aj stlpec musia byt vacsie ako 0 ale mensie ako ich hrancne hodnoty)*/
+				/* Ohranicenie aby sme nevysli z mapy
+				(riadok aj stlpec musia byt vacsie ako 0 ale mensie ako ich hrancne hodnoty)*/
 				if (novy_riadok > 0 && novy_riadok < pocet_riadkov && novy_stlpec > 0 && novy_stlpec < dlzka_riadku)
 				{
-          // Ak sa na poli nachadza P  (znamena to ze sme nasli princeznu)
+					// Ak sa na poli nachadza P  (znamena to ze sme nasli princeznu)
 					if (mapa[novy_riadok][novy_stlpec] == 'P')
 					{
-            // Cyklus sa vykonava pokial nenarazime na princa
+						// Cyklus sa vykonava pokial nenarazime na princa
 						while (riadok != p_riadok || stlpec != p_stlpec)
 						{
 							mapa[riadok][stlpec] = 'x'; // Dosadzujeme x na pozicie (vyznacujeme cestu)
@@ -120,15 +120,15 @@ int vyznac_cestu()
 						}
 						return 1;
 					}
-          // Ak sa na poli nachadza "." (cesta) a neboli sme zatial na tomto poli (rovna sa -1)
+					// Ak sa na poli nachadza "." (cesta) a neboli sme zatial na tomto poli (rovna sa -1)
 					if (mapa[novy_riadok][novy_stlpec] == '.' && pred[novy_riadok][novy_stlpec] < 0)
 					{
-            // Ak sa cestou da ist, zapiseme do pola pred na tieto suradnice poziciu vyjadrenu intom
+						// Ak sa cestou da ist, zapiseme do pola pred na tieto suradnice poziciu vyjadrenu intom
 						pred[novy_riadok][novy_stlpec] = pos2int(riadok, stlpec);
-            // Priradi v poli cesta na miesto chvost poziciu reprezentovanu intom
+						// Priradi v poli cesta na miesto chvost poziciu reprezentovanu intom
 						cesta[chvost++] = pos2int(novy_riadok, novy_stlpec);
 					}
-			  }
+				}
 		}
 	}
 
@@ -140,9 +140,9 @@ int vyznac_cestu()
 int main(void)
 {
 	nacitaj_bludisko(fopen("bludisko.txt", "rt"));
-  // Pred zmenou
+	// Pred zmenou
 	vypis_bludisko();
-  // Ak vrati funkcia 1 neexistuje ziadna cesta
+	// Ak vrati funkcia 1 neexistuje ziadna cesta
 	if (!vyznac_cestu())
 	{
 		printf("Cesta neexistuje\n");
@@ -150,7 +150,7 @@ int main(void)
 		return 0;
 	}
 	printf("\n \n \n");
-  // Po zmene
+	// Po zmene
 	vypis_bludisko();
 	getchar();
 	getchar();

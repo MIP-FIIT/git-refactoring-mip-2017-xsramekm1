@@ -1,0 +1,6 @@
+﻿  Path.cpp
+c:\users\tomas\documents\visual studio 2015\projects\princ\princ\path.cpp(142): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
+c:\users\tomas\documents\visual studio 2015\projects\princ\princ\path.cpp(37): warning C4700: uninitialized local variable 'riadok' used
+  Princ.vcxproj -> C:\Users\tomas\Documents\Visual Studio 2015\Projects\Princ\Debug\Princ.exe
+  Princ.vcxproj -> C:\Users\tomas\Documents\Visual Studio 2015\Projects\Princ\Debug\Princ.pdb (Full PDB)
