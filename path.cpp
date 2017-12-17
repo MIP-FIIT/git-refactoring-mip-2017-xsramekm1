@@ -1,4 +1,4 @@
-// Martin är·mek 
+// Martin ≈†r√°mek
 // FIIT STU, Bratislava
 
 // Princ hlada princeznu
@@ -6,27 +6,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char map[100][100]; 
+char map[100][100];
 int n, m;
-
 
 void scan(FILE *f){
 	char c;
 	int j = 0;
 	n = m = 0;
-	while ((c = fgetc(f)) > 0) 
+	while ((c = fgetc(f)) > 0)
 	{
 		if (c == '\n')
 		{
-			n++; 
+			n++;
 			j = 0;
 		}
 
-		if (c <= 32) 
+		if (c <= 32)
 			continue;
 
 		map[n][j++] = c;
-		if (m < j) 
+		if (m < j)
 			m = j;
 }}
 
@@ -53,11 +52,11 @@ void posi(int pos, int *i, int *j)
 
 int path()
 {
-	int d, dir[4][2] = { { -1,0 },{ 1,0 },{ 0,-1 },{ 0,1 } }; 
-	int i, j, pred[100][100]; 
+	int d, dir[4][2] = { { -1,0 },{ 1,0 },{ 0,-1 },{ 0,1 } };
+	int i, j, pred[100][100];
 	for (i = 0; i < n; i++)
 	for (j = 0; j < m; j++)
-	pred[i][j] = -1; 
+	pred[i][j] = -1;
 
 	int *q, h, t = 0;
 	q = (int*)malloc(n*m * sizeof(int));
@@ -70,46 +69,46 @@ int path()
 		if (map[i][j] == 'P')
 		{
 				pi = i;	pj = j;
-				q[t++] = inti(pi, pj); 
+				q[t++] = inti(pi, pj);
 			  i = n;
 				j = m;
 				break;
 		}
 
 
-	while (h < t) 
+	while (h < t)
     {
-      posi(q[h++], &i, &j); 
+      posi(q[h++], &i, &j);
 
       for (d = 0; d < 4; d++)
       {
-        int ni = i + dir[d][0]; 
+        int ni = i + dir[d][0];
             int nj = j + dir[d][1];
-              if (ni != pi || nj != pj) 				
-          if (ni > 0 && ni < n && nj > 0 && nj < m) 
-            {					
-              if (map[ni][nj] == 'P') 
+              if (ni != pi || nj != pj)
+          if (ni > 0 && ni < n && nj > 0 && nj < m)
+            {
+              if (map[ni][nj] == 'P')
               {
-                while (i != pi || j != pj) 
-                { map[i][j] = 'x'; 
+                while (i != pi || j != pj)
+                { map[i][j] = 'x';
                   posi(pred[i][j], &i, &j); }
 
 
               return 1;
               }
-              if (map[ni][nj] == '.' && pred[ni][nj] < 0) 
+              if (map[ni][nj] == '.' && pred[ni][nj] < 0)
                 {
-                  pred[ni][nj] = inti(i, j); 
+                  pred[ni][nj] = inti(i, j);
 
-                q[t++] = inti(ni, nj); 
+                q[t++] = inti(ni, nj);
               }
-            }				
+            }
         }
 
     }
 
 
-	return 0; 
+	return 0;
 }
 
 int main(void)
